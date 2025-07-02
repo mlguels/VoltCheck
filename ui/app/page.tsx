@@ -29,7 +29,7 @@ export default function Home() {
       const data = await res.json();
       parseResult(data.result);
     } catch (err) {
-      setResults(['⚠️ Failed to fetch default test results']);
+      setResults([`⚠️ Failed to fetch default test results, ${err}`]);
     }
 
     setLoading(false);
@@ -50,7 +50,7 @@ export default function Home() {
       const data = await res.json();
       parseResult(data.result);
     } catch (err) {
-      setResults(['⚠️ Failed to fetch custom test results']);
+      setResults([`⚠️ Failed to fetch custom test results ${err}`]);
     }
 
     setLoading(false);
