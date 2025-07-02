@@ -3,5 +3,5 @@ package main
 import "voltcheck/runner"
 
 func main(){
-	runner.RunAndReturnSummary()
+	runner.RunAndReturnSummary(30.0, 115.0)
 }
