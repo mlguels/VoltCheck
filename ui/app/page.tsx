@@ -28,8 +28,8 @@ export default function Home() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/run-tests`);
       const data = await res.json();
       parseResult(data.result);
-    } catch (err) {
-      setResults([`⚠️ Failed to fetch default test results, ${err}`]);
+    } catch (err: unknown) {
+      setResults([`⚠️ Failed to fetch default test results, ${String(err)}`]);
     }
 
     setLoading(false);
@@ -49,8 +49,8 @@ export default function Home() {
 
       const data = await res.json();
       parseResult(data.result);
-    } catch (err) {
-      setResults([`⚠️ Failed to fetch custom test results ${err}`]);
+    } catch (err: unknown) {
+      setResults([`⚠️ Failed to fetch custom test results, ${String(err)}`]);
     }
 
     setLoading(false);

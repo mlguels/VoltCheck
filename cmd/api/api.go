@@ -1,6 +1,7 @@
 package main
 
 import (
+	"time"
 	"voltcheck/runner"
 
 	"github.com/gin-contrib/cors"
@@ -11,10 +12,11 @@ func main() {
 	r := gin.Default()
 
 		r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001"},
-		AllowMethods:     []string{"GET", "POST"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "https://volt-check.vercel.app/"},
+		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type"},
 		AllowCredentials: true,
+		MaxAge: 12 * time.Hour,
 	}))
 
 	r.GET("/run-tests", func(c *gin.Context) {
