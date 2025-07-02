@@ -12,12 +12,16 @@ func main() {
 	r := gin.Default()
 
 		r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "https://volt-check.vercel.app/"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "https://volt-check.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type"},
 		AllowCredentials: true,
 		MaxAge: 12 * time.Hour,
 	}))
+
+	r.OPTIONS("/*path", func(c *gin.Context) {
+		c.AbortWithStatus(204)
+	})
 
 	r.GET("/run-tests", func(c *gin.Context) {
 		result := runner.RunAndReturnSummary(30.0, 115.0)
