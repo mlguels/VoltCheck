@@ -27,3 +27,18 @@ Originally inspired by real-world test automation systems like those used in pow
 - 🧵 Concurrent test execution using Go routines
 
 ---
+
+🧠 Learnings
+
+- Go interfaces and dependency injection
+- Goroutines & channels for concurrency
+- CORS handling between Go and Next.js
+- Monorepo-style structure for full-stack apps
+
+🌱 Future Ideas
+
+- Add more test types (e.g., humidity, power loss)
+- Store historical test results
+- Test against real hardware using GPIO or microcontroller input
+- Add authentication to restrict who can run tests
+- Auto-run tests on a schedule or based on device triggers
