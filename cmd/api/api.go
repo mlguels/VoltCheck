@@ -11,18 +11,33 @@ func main() {
 	r := gin.Default()
 
 		r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"},
-		AllowMethods:     []string{"GET"},
-		AllowHeaders:     []string{"Origin"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001"},
+		AllowMethods:     []string{"GET", "POST"},
+		AllowHeaders:     []string{"Origin", "Content-Type"},
 		AllowCredentials: true,
 	}))
 
 	r.GET("/run-tests", func(c *gin.Context) {
-		result := runner.RunAndReturnSummary()
+		result := runner.RunAndReturnSummary(30.0, 115.0)
 		c.JSON(200, gin.H{
 			"result": result,
 		})
 	})
 
-	r.Run(":8080") // Open http://localhost:8080/run-tests
+	r.POST("/run-custom", func(c *gin.Context) {
+		var config struct {
+			ThermalMax float64 `json:"thermalMax"`
+			VoltageMax float64 `json:"voltageMax"`
+		}
+
+		if err := c.ShouldBindJSON(&config); err != nil {
+			c.JSON(400, gin.H{"error": "invalid JSON config"})
+			return
+		}
+
+		result := runner.RunAndReturnSummary(config.ThermalMax, config.VoltageMax)
+		c.JSON(200, gin.H{"result": result})
+	})
+
+	r.Run(":8080")
 }
