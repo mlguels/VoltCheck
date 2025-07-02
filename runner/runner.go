@@ -8,13 +8,12 @@ import (
 )
 
 
-func RunAll() {
-	fmt.Println("Running VoltCheck Tests (Concurrent)...")
-
+func RunAndReturnSummary() string {
 	// Channel to collect results
 	results := make(chan string, 2) 
 	passCount := 0
 	failCount := 0
+	output := []string{}
 
 	// Launch ThermalTest in a goroutine
 	go func() {
@@ -31,7 +30,7 @@ func RunAll() {
 	// Collect and print results from both tests
 	for i := 0; i < 2; i++ {
 		result := <-results
-		fmt.Println("🔎", result)
+		output = append(output, result)
 
 		// Check for passing / failing tests
 		if strings.Contains(result, "PASS") {
@@ -41,5 +40,9 @@ func RunAll() {
 		}
 	}
 
-	fmt.Printf("\n✅ %d Passed | ❌ %d Failed\n", passCount, failCount)
+		summary := fmt.Sprintf("%s\n✅ %d Passed | ❌ %d Failed",
+		strings.Join(output, "\n🔎 "),
+		passCount, failCount)
+
+		return summary
 }
