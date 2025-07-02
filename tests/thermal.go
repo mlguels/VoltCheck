@@ -7,12 +7,13 @@ import (
 
 type ThermalTest struct {
 	Sensor mocks.TemperatureSensor
+	MaxAllowed float64
 }
 
 func (t ThermalTest) Run() string {
 	temp := t.Sensor.ReadTemperature()
-	if temp > 30.0 {
-		return fmt.Sprintf("FAIL: %.2f°C exceeds limit", temp)
+	if temp > t.MaxAllowed {
+		return fmt.Sprintf("FAIL: %.2f°C exceeds %.2f°C", temp, t.MaxAllowed)
 	}
-	return fmt.Sprintf("PASS: %.2f°C within range", temp)
+	return fmt.Sprintf("PASS: %.2f°C within limit %.2f°C", temp, t.MaxAllowed)
 }

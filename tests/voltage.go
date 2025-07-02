@@ -7,12 +7,13 @@ import (
 
 type VoltageTest struct {
 	Sensor mocks.VoltageSensor
+	MaxAllowed float64
 }
 
 func (v VoltageTest) Run() string {
 	voltage := v.Sensor.ReadVoltage()
-	if voltage > 115.0 {
-		return fmt.Sprintf("FAIL: %.2fV too high", voltage)
+	if voltage > v.MaxAllowed {
+		return fmt.Sprintf("FAIL: %.2fV exceeds %.2fV", voltage, v.MaxAllowed)
 	}
-	return fmt.Sprintf("PASS: %2fV within range", voltage)
+	return fmt.Sprintf("PASS: %.2fV within limit %.2fV", voltage, v.MaxAllowed)
 }
