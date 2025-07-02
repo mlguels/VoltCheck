@@ -8,7 +8,7 @@ import (
 )
 
 
-func RunAndReturnSummary() string {
+func RunAndReturnSummary(thermalLimit, voltageLimit float64) string {
 	// Channel to collect results
 	results := make(chan string, 2) 
 	passCount := 0
@@ -17,13 +17,19 @@ func RunAndReturnSummary() string {
 
 	// Launch ThermalTest in a goroutine
 	go func() {
-		thermal := tests.ThermalTest{Sensor: mocks.MockThermalSensor{}}
+		thermal := tests.ThermalTest{
+			Sensor: mocks.MockThermalSensor{},
+			MaxAllowed: thermalLimit,
+		}
 		results <- "ThermalTest: " + thermal.Run()
 	}()
 
 	// Launch VoltageTest in another goroutine
 	go func() {
-		voltage := tests.VoltageTest{Sensor: mocks.MockVoltageSensor{}}
+		voltage := tests.VoltageTest{
+			Sensor: mocks.MockVoltageSensor{},
+			MaxAllowed: voltageLimit,
+		}
 		results <- "VoltageTest: " + voltage.Run()
 	}()
 
@@ -40,9 +46,7 @@ func RunAndReturnSummary() string {
 		}
 	}
 
-		summary := fmt.Sprintf("%s\n✅ %d Passed | ❌ %d Failed",
+		return fmt.Sprintf("%s\n✅ %d Passed | ❌ %d Failed",
 		strings.Join(output, "\n🔎 "),
 		passCount, failCount)
-
-		return summary
 }
