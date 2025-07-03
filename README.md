@@ -4,6 +4,13 @@ VoltCheck is a hardware test framework built in Go, with a web-based dashboard b
 
 Originally inspired by real-world test automation systems like those used in power electronics and manufacturing environments (e.g. Amperesand), VoltCheck simulates test modules such as thermal and voltage sensors, executes them concurrently, and provides results via both CLI and a web API.
 
+
+## 🌐 Live Demo
+
+- **Frontend**: [volt-check.vercel.app](https://volt-check.vercel.app)  
+- **Backend**: [voltcheck-production.up.railway.app](https://voltcheck-production.up.railway.app)
+
+
 ---
 
 ## 📦 Tech Stack
